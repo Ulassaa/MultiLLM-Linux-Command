@@ -1,0 +1,49 @@
+# Build directories
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Compiled object files
+*.o
+*.obj
+*.lo
+*.la
+*.al
+*.libs
+*.so
+*.so.*
+*.a
+*.lib
+*.dll
+*.dylib
+*.exe
+*.out
+*.app
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Debug files
+*.dSYM/
+*.stackdump
+
+# Generated files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# IDE files
+*.user
+*.vcxproj*
+*.sln
+*.DS_Store
+*.idea/
+*.vscode/
+
+# Other
+core
+*.core
