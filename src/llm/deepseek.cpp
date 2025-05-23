@@ -22,13 +22,18 @@ namespace llm {
         }
         const std::string url = "https://api.deepseek.com/v1/chat/completions";
 
-        // Prepare JSON payload (assuming OpenAI-compatible API)
+        // Prepare JSON payload (add system message for better results)
         Json::Value root;
         root["model"] = "deepseek-chat";
-        Json::Value message;
-        message["role"] = "user";
-        message["content"] = prompt;
-        root["messages"].append(message);
+        Json::Value sys_msg;
+        sys_msg["role"] = "system";
+        sys_msg["content"] = "You are a helpful assistant.";
+        root["messages"].append(sys_msg);
+        Json::Value user_msg;
+        user_msg["role"] = "user";
+        user_msg["content"] = prompt;
+        root["messages"].append(user_msg);
+        root["stream"] = false;
         Json::StreamWriterBuilder writer;
         std::string payload = Json::writeString(writer, root);
 
