@@ -2,6 +2,7 @@
 #include "llm/gemini.h"
 #include "llm/chatgpt.h"
 #include "llm/deepseek.h"
+#include "llm/cohere.h"
 #include <iostream>
 
 int main(int argc, char* argv[]) {
@@ -11,7 +12,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Enter your prompt: ";
     std::getline(std::cin, prompt);
     std::string response;
-    std::cout << "Select model ([g]emini/[c]hatgpt/[d]eepseek): ";
+    std::cout << "Select model ([g]emini/[c]hatgpt/[d]eepseek/[h]cohere): ";
     char model_choice;
     std::cin >> model_choice;
     std::cin.ignore(); // clear newline
@@ -21,6 +22,9 @@ int main(int argc, char* argv[]) {
     } else if (model_choice == 'd' || model_choice == 'D') {
         response = llm::query_deepseek(prompt);
         std::cout << "DeepSeek: " << response << std::endl;
+    } else if (model_choice == 'h' || model_choice == 'H') {
+        response = llm::query_cohere(prompt);
+        std::cout << "Cohere: " << response << std::endl;
     } else {
         response = llm::query_gemini(prompt);
         std::cout << "Gemini: " << response << std::endl;
