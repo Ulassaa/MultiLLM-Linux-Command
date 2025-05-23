@@ -5,6 +5,7 @@
 #include <json/json.h>
 #include <cstdlib>
 #include <sstream>
+#include <iostream> // Include iostream for debug output
 
 namespace llm {
     namespace {
@@ -20,7 +21,8 @@ namespace llm {
         if (!api_key) {
             return "[Error: GEMINI_API_KEY environment variable not set]";
         }
-        const std::string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + std::string(api_key);
+        // Use the correct Gemini API endpoint and model name from your working curl example
+        const std::string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + std::string(api_key);
 
         // Prepare JSON payload
         Json::Value root;
@@ -48,6 +50,9 @@ namespace llm {
         } else {
             return "[Error initializing CURL]";
         }
+
+        // Debug: print raw response
+        // std::cout << "[DEBUG] Raw Gemini response: " << response_string << std::endl;
 
         // Parse JSON response
         Json::CharReaderBuilder reader;

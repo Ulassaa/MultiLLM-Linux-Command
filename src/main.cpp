@@ -10,5 +10,9 @@ int main(int argc, char* argv[]) {
     std::getline(std::cin, prompt);
     std::string response = llm::query_gemini(prompt);
     std::cout << "Gemini: " << response << std::endl;
+    // Debug: print raw response if empty or error
+    if (response.empty() || response[0] == '[') {
+        std::cout << "(Debug) The response may be empty or an error. Check your API key, quota, or network.\n";
+    }
     return 0;
 }
