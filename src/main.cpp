@@ -5,6 +5,10 @@
 int main(int argc, char* argv[]) {
     // ...parse arguments, select model, etc...
     std::cout << "MultiLLM-Linux-Command CLI" << std::endl;
-    // ...call Gemini or other LLMs as needed...
+    std::string prompt;
+    std::cout << "Enter your prompt: ";
+    std::getline(std::cin, prompt);
+    std::string response = llm::query_gemini(prompt);
+    std::cout << "Gemini: " << response << std::endl;
     return 0;
 }

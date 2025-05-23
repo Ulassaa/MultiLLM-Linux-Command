@@ -4,7 +4,7 @@ project(MultiLLM-Linux-Command)
 set(CMAKE_CXX_STANDARD 17)
 
 # Source files
-glob_recurse(SOURCES src/*.cpp)
+file(GLOB SOURCES src/*.cpp src/llm/*.cpp src/utils/*.cpp)
 
 add_executable(multillm ${SOURCES})
 
