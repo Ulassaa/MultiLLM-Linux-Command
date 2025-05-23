@@ -1,0 +1,94 @@
+OVERVIEW 
+In this project we are going to develop a Linux command line tool that allows users to interact 
+with different Large Language Models dynamically. This command will support multiple chatbot 
+APIs and enable users to switch between the chatbots using a “-- model” flag. As software 
+development tools we are going to use C++ to implement the command line interface, we will use 
+CMake to build our C++ project. We will use libcurl C++ library for making API requests. To handle 
+parallel API requests we will use multi-threading involving the pthread library. jsoncpp for parsing 
+JSON responses, and GitHub to manage our git repository between our teammates. By doing this 
+project, we will have a deeper understanding of Linux shell scripting and gain hands-on 
+experience with command-line automation, handling user input, and error management 
+mechanisms. 
+GOALS 
+●  Develop a Linux command-line tool that allows users to interact with multiple LLM APIs.   
+●  Implement support for multiple chatbot APIs with the function to switch between them 
+using a “-- model” flag. 
+●  It will have basic flags like –help, –version etc. 
+●  It will be able to handle images  that have been sent by LLM and store them in the 
+computer locally. 
+●  Make parallel API requests by using the pthread library. 
+DEVELOPMENT PLAN 
+●  Install the necessary tools e.g. (Virtual Machine, Ubuntu, GCC, libcurl, jsoncpp, pthread, 
+etc.) 
+●  First we will examine the documents of the LLM APIs to get an understanding of how APIs 
+work and how we can make and process responses. 
+●  Create a proper project structure using CMake. 
+●  Integrate libcurl for making API requests to different LLM models. 
+●  To parse JSON responses from LLM APIs we will use jsoncpp for proper data extraction 
+and formatting.
+
+DEVELOPMENT PLAN (Step-by-step)
+1. **Environment Setup**
+   - Install required tools: Virtual Machine (if needed), Ubuntu, GCC, CMake, libcurl, jsoncpp, pthread, and Git.
+   - Set up a GitHub repository for version control and collaboration.
+
+2. **Project Structure Initialization**
+   - Create a CMake-based C++ project structure.
+   - Organize directories for source code, headers, third-party libraries, and build files.
+
+3. **Command-Line Interface (CLI) Skeleton**
+   - Implement basic CLI parsing (support for flags like `--help`, `--version`, etc.).
+   - Design the interface to accept a `--model` flag for model selection.
+
+4. **API Integration Layer**
+   - Integrate libcurl for making HTTP requests.
+   - Abstract API calls to support multiple LLM providers (e.g., OpenAI, HuggingFace, etc.).
+   - Implement a mechanism to switch between APIs based on the `--model` flag.
+
+5. **JSON Parsing**
+   - Integrate jsoncpp for parsing and extracting data from API responses.
+   - Design data structures to store and process responses.
+
+6. **Image Handling**
+   - Detect and handle image data in API responses.
+   - Implement logic to save images locally when received.
+
+7. **Parallel Requests**
+   - Integrate pthread to enable parallel API requests.
+   - Ensure thread safety and proper synchronization where necessary.
+
+8. **Testing and Error Handling**
+   - Implement robust error handling for network, parsing, and user input errors.
+   - Write unit and integration tests for core functionalities.
+
+9. **Documentation**
+   - Document code, usage instructions, and contribution guidelines.
+   - Update README and in-code comments.
+
+10. **Final Review and Optimization**
+    - Refactor code for maintainability and performance.
+    - Conduct code reviews and finalize the project for release.
+
+PROJECT DIRECTORY STRUCTURE EXAMPLE
+.
+├── CMakeLists.txt
+├── README.md
+├── src/
+│   ├── main.cpp
+│   ├── cli.cpp
+│   ├── cli.h
+│   ├── api/
+│   │   ├── api_manager.cpp
+│   │   ├── api_manager.h
+│   │   ├── openai_api.cpp
+│   │   ├── openai_api.h
+│   │   ├── gemini_api.cpp
+│   │   └── gemini_api.h
+│   └── utils/
+│       ├── json_utils.cpp
+│       ├── json_utils.h
+│       ├── image_utils.cpp
+│       └── image_utils.h
+├── third_party/
+│   └── jsoncpp/
+└── build/
