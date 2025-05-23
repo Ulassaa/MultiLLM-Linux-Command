@@ -1,11 +1,11 @@
-// ChatGPT (OpenAI) integration
-#include "chatgpt.h"
+// DeepSeek integration
+#include "deepseek.h"
 #include <string>
 #include <curl/curl.h>
 #include <json/json.h>
 #include <cstdlib>
 #include <sstream>
-#include <iostream> // Include iostream for debug output
+#include <iostream>
 
 namespace llm {
     namespace {
@@ -15,16 +15,16 @@ namespace llm {
         }
     }
 
-    std::string query_chatgpt(const std::string& prompt) {
-        const char* api_key = std::getenv("OPENAI_API_KEY");
+    std::string query_deepseek(const std::string& prompt) {
+        const char* api_key = std::getenv("DEEPSEEK_API_KEY");
         if (!api_key) {
-            return "[Error: OPENAI_API_KEY environment variable not set]";
+            return "[Error: DEEPSEEK_API_KEY environment variable not set]";
         }
-        const std::string url = "https://api.openai.com/v1/chat/completions";
+        const std::string url = "https://api.deepseek.com/v1/chat/completions";
 
-        // Prepare JSON payload for ChatGPT (gpt-3.5-turbo)
+        // Prepare JSON payload (assuming OpenAI-compatible API)
         Json::Value root;
-        root["model"] = "gpt-3.5-turbo";
+        root["model"] = "deepseek-chat";
         Json::Value message;
         message["role"] = "user";
         message["content"] = prompt;
@@ -55,7 +55,7 @@ namespace llm {
         }
 
         // Debug: print raw response
-        std::cout << "[DEBUG] Raw ChatGPT response: " << response_string << std::endl;
+        // std::cout << "[DEBUG] Raw DeepSeek response: " << response_string << std::endl;
 
         // Parse JSON response
         Json::CharReaderBuilder reader;
@@ -69,7 +69,7 @@ namespace llm {
         try {
             return json_response["choices"][0]["message"]["content"].asString();
         } catch (...) {
-            return "[Error extracting ChatGPT response]";
+            return "[Error extracting DeepSeek response]";
         }
     }
 }
