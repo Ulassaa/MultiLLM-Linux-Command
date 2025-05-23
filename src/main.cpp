@@ -5,28 +5,58 @@
 #include "llm/cohere.h"
 #include "llm/mistral.h"
 #include <iostream>
+#include <cstring>
 
 int main(int argc, char* argv[]) {
-    // ...parse arguments, select model, etc...
+    // --help flag
+    for (int i = 1; i < argc; ++i) {
+        if (std::strcmp(argv[i], "--help") == 0) {
+            std::cout << "MultiLLM-Linux-Command CLI\n";
+            std::cout << "Usage: multillm [--model MODEL]\n";
+            std::cout << "\n";
+            std::cout << "Options:\n";
+            std::cout << "  --help           Show this help message and exit\n";
+            std::cout << "  --model MODEL    Select LLM model (gemini, chatgpt, deepseek, cohere, mistral)\n";
+            std::cout << "\n";
+            std::cout << "Available models:\n";
+            std::cout << "  gemini    (default, free tier)\n";
+            std::cout << "  chatgpt   (OpenAI, paid/free trial)\n";
+            std::cout << "  deepseek  (OpenAI-compatible, paid)\n";
+            std::cout << "  cohere    (free trial available)\n";
+            std::cout << "  mistral   (OpenAI-compatible, free tier)\n";
+            std::cout << "\n";
+            std::cout << "Example:\n";
+            std::cout << "  multillm --model gemini\n";
+            return 0;
+        }
+    }
+
     std::cout << "MultiLLM-Linux-Command CLI" << std::endl;
     std::string prompt;
+    std::string model_flag;
+    // Parse --model flag if present
+    for (int i = 1; i < argc - 1; ++i) {
+        if (std::strcmp(argv[i], "--model") == 0 && i + 1 < argc) {
+            model_flag = argv[i + 1];
+            break;
+        }
+    }
+    if (model_flag.empty()) {
+        model_flag = "gemini";
+    }
     std::cout << "Enter your prompt: ";
     std::getline(std::cin, prompt);
     std::string response;
-    std::cout << "Select model ([g]emini/[c]hatgpt/[d]eepseek/[h]cohere/[m]istral): ";
-    char model_choice;
-    std::cin >> model_choice;
-    std::cin.ignore(); // clear newline
-    if (model_choice == 'c' || model_choice == 'C') {
+    if (model_flag == "chatgpt") {
         response = llm::query_chatgpt(prompt);
         std::cout << "ChatGPT: " << response << std::endl;
-    } else if (model_choice == 'd' || model_choice == 'D') {
+    } else if (model_flag == "deepseek") {
         response = llm::query_deepseek(prompt);
         std::cout << "DeepSeek: " << response << std::endl;
-    } else if (model_choice == 'h' || model_choice == 'H') {
+    } else if (model_flag == "cohere") {
         response = llm::query_cohere(prompt);
         std::cout << "Cohere: " << response << std::endl;
-    } else if (model_choice == 'm' || model_choice == 'M') {
+    } else if (model_flag == "mistral") {
         response = llm::query_mistral(prompt);
         std::cout << "Mistral: " << response << std::endl;
     } else {
