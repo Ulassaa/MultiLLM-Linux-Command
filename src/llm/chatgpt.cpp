@@ -55,7 +55,7 @@ namespace llm {
         }
 
         // Debug: print raw response
-        std::cout << "[DEBUG] Raw ChatGPT response: " << response_string << std::endl;
+        //std::cout << "[DEBUG] Raw ChatGPT response: " << response_string << std::endl;
 
         // Parse JSON response
         Json::CharReaderBuilder reader;

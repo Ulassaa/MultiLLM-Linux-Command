@@ -25,10 +25,7 @@ namespace llm {
         // Prepare JSON payload for Cohere chat
         Json::Value root;
         root["model"] = "command-a-03-2025";
-        Json::Value user_msg;
-        user_msg["role"] = "user";
-        user_msg["content"] = prompt;
-        root["messages"].append(user_msg);
+        root["message"] = prompt; // 'message' should be a string, not an object
         Json::StreamWriterBuilder writer;
         std::string payload = Json::writeString(writer, root);
 
