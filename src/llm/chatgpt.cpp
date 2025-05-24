@@ -1,11 +1,10 @@
-// ChatGPT (OpenAI) integration
 #include "chatgpt.h"
 #include <string>
 #include <curl/curl.h>
 #include <json/json.h>
 #include <cstdlib>
 #include <sstream>
-#include <iostream> // Include iostream for debug output
+#include <iostream>
 #include <pthread.h>
 
 namespace llm {
@@ -23,7 +22,7 @@ namespace llm {
         }
         const std::string url = "https://api.openai.com/v1/chat/completions";
 
-        // Prepare JSON payload for ChatGPT (gpt-3.5-turbo)
+        // Prepare JSON payload for ChatGPT
         Json::Value root;
         root["model"] = "gpt-3.5-turbo";
         Json::Value message;
@@ -54,11 +53,6 @@ namespace llm {
         } else {
             return "[Error initializing CURL]";
         }
-
-        // Debug: print raw response
-        //std::cout << "[DEBUG] Raw ChatGPT response: " << response_string << std::endl;
-
-        // Parse JSON response
         Json::CharReaderBuilder reader;
         Json::Value json_response;
         std::string errs;
@@ -66,7 +60,6 @@ namespace llm {
         if (!Json::parseFromStream(reader, s, &json_response, &errs)) {
             return "[Error parsing JSON response]";
         }
-        // Extract the model's reply
         try {
             return json_response["choices"][0]["message"]["content"].asString();
         } catch (...) {

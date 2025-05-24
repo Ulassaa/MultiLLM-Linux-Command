@@ -1,4 +1,3 @@
-// DeepSeek integration header
 #ifndef DEEPSEEK_H
 #define DEEPSEEK_H
 
@@ -9,4 +8,4 @@ namespace llm {
     std::string query_deepseek_async(const std::string& prompt);
 }
 
-#endif // DEEPSEEK_H
+#endif

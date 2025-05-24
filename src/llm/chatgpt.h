@@ -1,4 +1,3 @@
-// ChatGPT (OpenAI) integration header
 #ifndef CHATGPT_H
 #define CHATGPT_H
 
@@ -9,4 +8,4 @@ namespace llm {
     std::string query_chatgpt_async(const std::string& prompt);
 }
 
-#endif // CHATGPT_H
+#endif

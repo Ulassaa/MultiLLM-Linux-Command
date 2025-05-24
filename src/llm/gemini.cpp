@@ -1,16 +1,14 @@
-// Gemini chatbot integration
 #include "gemini.h"
 #include <string>
 #include <curl/curl.h>
 #include <json/json.h>
 #include <cstdlib>
 #include <sstream>
-#include <iostream> // Include iostream for debug output
+#include <iostream>
 #include <pthread.h>
 
 namespace llm {
     namespace {
-        // Helper to collect response data from libcurl
         size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
             ((std::string*)userp)->append((char*)contents, size * nmemb);
             return size * nmemb;
@@ -22,7 +20,6 @@ namespace llm {
         if (!api_key) {
             return "[Error: GEMINI_API_KEY environment variable not set]";
         }
-        // Use the correct Gemini API endpoint and model name from your working curl example
         const std::string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + std::string(api_key);
 
         // Prepare JSON payload
@@ -52,10 +49,6 @@ namespace llm {
             return "[Error initializing CURL]";
         }
 
-        // Debug: print raw response
-        // std::cout << "[DEBUG] Raw Gemini response: " << response_string << std::endl;
-
-        // Parse JSON response
         Json::CharReaderBuilder reader;
         Json::Value json_response;
         std::string errs;
@@ -63,7 +56,6 @@ namespace llm {
         if (!Json::parseFromStream(reader, s, &json_response, &errs)) {
             return "[Error parsing JSON response]";
         }
-        // Extract the model's reply
         try {
             return json_response["candidates"][0]["content"]["parts"][0]["text"].asString();
         } catch (...) {

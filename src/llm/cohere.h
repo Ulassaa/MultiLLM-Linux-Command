@@ -1,4 +1,3 @@
-// Cohere integration header
 #ifndef COHERE_H
 #define COHERE_H
 
@@ -9,4 +8,4 @@ namespace llm {
     std::string query_cohere_async(const std::string& prompt);
 }
 
-#endif // COHERE_H
+#endif

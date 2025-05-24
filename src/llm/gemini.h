@@ -1,4 +1,3 @@
-// Gemini chatbot integration (stub)
 #ifndef GEMINI_H
 #define GEMINI_H
 
@@ -9,4 +8,4 @@ namespace llm {
     std::string query_gemini_async(const std::string& prompt);
 }
 
-#endif // GEMINI_H
+#endif

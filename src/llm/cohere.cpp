@@ -1,4 +1,3 @@
-// Cohere integration
 #include "cohere.h"
 #include <string>
 #include <curl/curl.h>
@@ -26,7 +25,7 @@ namespace llm {
         // Prepare JSON payload for Cohere chat
         Json::Value root;
         root["model"] = "command-a-03-2025";
-        root["message"] = prompt; // 'message' should be a string, not an object
+        root["message"] = prompt;
         Json::StreamWriterBuilder writer;
         std::string payload = Json::writeString(writer, root);
 
@@ -52,10 +51,6 @@ namespace llm {
             return "[Error initializing CURL]";
         }
 
-        // Debug: print raw response
-        // std::cout << "[DEBUG] Raw Cohere response: " << response_string << std::endl;
-
-        // Parse JSON response
         Json::CharReaderBuilder reader;
         Json::Value json_response;
         std::string errs;
@@ -63,7 +58,6 @@ namespace llm {
         if (!Json::parseFromStream(reader, s, &json_response, &errs)) {
             return "[Error parsing JSON response]";
         }
-        // Extract the model's reply
         try {
             return json_response["text"].asString();
         } catch (...) {

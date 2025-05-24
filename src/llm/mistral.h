@@ -1,4 +1,3 @@
-// Mistral integration header
 #ifndef MISTRAL_H
 #define MISTRAL_H
 
@@ -9,4 +8,4 @@ namespace llm {
     std::string query_mistral_async(const std::string& prompt);
 }
 
-#endif // MISTRAL_H
+#endif

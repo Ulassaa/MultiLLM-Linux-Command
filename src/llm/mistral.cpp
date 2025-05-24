@@ -1,4 +1,3 @@
-// Mistral integration
 #include "mistral.h"
 #include <string>
 #include <curl/curl.h>
@@ -23,7 +22,7 @@ namespace llm {
         }
         const std::string url = "https://api.mistral.ai/v1/chat/completions";
 
-        // Prepare JSON payload for Mistral chat (OpenAI-compatible)
+        // Prepare JSON payload for Mistral chat
         Json::Value root;
         root["model"] = "mistral-tiny";
         Json::Value user_msg;
@@ -55,10 +54,6 @@ namespace llm {
             return "[Error initializing CURL]";
         }
 
-        // Debug: print raw response
-        // std::cout << "[DEBUG] Raw Mistral response: " << response_string << std::endl;
-
-        // Parse JSON response
         Json::CharReaderBuilder reader;
         Json::Value json_response;
         std::string errs;
@@ -66,7 +61,6 @@ namespace llm {
         if (!Json::parseFromStream(reader, s, &json_response, &errs)) {
             return "[Error parsing JSON response]";
         }
-        // Extract the model's reply
         try {
             return json_response["choices"][0]["message"]["content"].asString();
         } catch (...) {

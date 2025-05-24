@@ -1,4 +1,3 @@
-// DeepSeek integration
 #include "deepseek.h"
 #include <string>
 #include <curl/curl.h>
@@ -23,7 +22,7 @@ namespace llm {
         }
         const std::string url = "https://api.deepseek.com/v1/chat/completions";
 
-        // Prepare JSON payload (add system message for better results)
+        // Prepare JSON payload
         Json::Value root;
         root["model"] = "deepseek-chat";
         Json::Value sys_msg;
@@ -60,10 +59,6 @@ namespace llm {
             return "[Error initializing CURL]";
         }
 
-        // Debug: print raw response
-        // std::cout << "[DEBUG] Raw DeepSeek response: " << response_string << std::endl;
-
-        // Parse JSON response
         Json::CharReaderBuilder reader;
         Json::Value json_response;
         std::string errs;
@@ -71,7 +66,6 @@ namespace llm {
         if (!Json::parseFromStream(reader, s, &json_response, &errs)) {
             return "[Error parsing JSON response]";
         }
-        // Extract the model's reply
         try {
             return json_response["choices"][0]["message"]["content"].asString();
         } catch (...) {
