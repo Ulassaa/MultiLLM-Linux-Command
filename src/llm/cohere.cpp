@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <iostream>
+#include <pthread.h>
 
 namespace llm {
     namespace {
@@ -68,5 +69,27 @@ namespace llm {
         } catch (...) {
             return "[Error extracting Cohere response]";
         }
+    }
+
+    struct CohereThreadArgs {
+        std::string prompt;
+        std::string* result;
+    };
+
+    void* query_cohere_thread_func(void* arg) {
+        CohereThreadArgs* args = static_cast<CohereThreadArgs*>(arg);
+        *(args->result) = llm::query_cohere(args->prompt);
+        return nullptr;
+    }
+
+    std::string query_cohere_async(const std::string& prompt) {
+        pthread_t thread;
+        std::string* result = new std::string;
+        CohereThreadArgs args{prompt, result};
+        pthread_create(&thread, nullptr, query_cohere_thread_func, &args);
+        pthread_join(thread, nullptr);
+        std::string ret = *result;
+        delete result;
+        return ret;
     }
 }

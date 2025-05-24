@@ -6,6 +6,7 @@
 
 namespace llm {
     std::string query_cohere(const std::string& prompt);
+    std::string query_cohere_async(const std::string& prompt);
 }
 
 #endif // COHERE_H

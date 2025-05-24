@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <iostream>
+#include <pthread.h>
 
 namespace llm {
     namespace {
@@ -71,5 +72,27 @@ namespace llm {
         } catch (...) {
             return "[Error extracting Mistral response]";
         }
+    }
+
+    struct MistralThreadArgs {
+        std::string prompt;
+        std::string* result;
+    };
+
+    void* query_mistral_thread_func(void* arg) {
+        MistralThreadArgs* args = static_cast<MistralThreadArgs*>(arg);
+        *(args->result) = llm::query_mistral(args->prompt);
+        return nullptr;
+    }
+
+    std::string query_mistral_async(const std::string& prompt) {
+        pthread_t thread;
+        std::string* result = new std::string;
+        MistralThreadArgs args{prompt, result};
+        pthread_create(&thread, nullptr, query_mistral_thread_func, &args);
+        pthread_join(thread, nullptr);
+        std::string ret = *result;
+        delete result;
+        return ret;
     }
 }

@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <iostream> // Include iostream for debug output
+#include <pthread.h>
 
 namespace llm {
     namespace {
@@ -68,5 +69,27 @@ namespace llm {
         } catch (...) {
             return "[Error extracting Gemini response]";
         }
+    }
+
+    struct GeminiThreadArgs {
+        std::string prompt;
+        std::string* result;
+    };
+
+    void* query_gemini_thread_func(void* arg) {
+        GeminiThreadArgs* args = static_cast<GeminiThreadArgs*>(arg);
+        *(args->result) = llm::query_gemini(args->prompt);
+        return nullptr;
+    }
+
+    std::string query_gemini_async(const std::string& prompt) {
+        pthread_t thread;
+        std::string* result = new std::string;
+        GeminiThreadArgs args{prompt, result};
+        pthread_create(&thread, nullptr, query_gemini_thread_func, &args);
+        pthread_join(thread, nullptr);
+        std::string ret = *result;
+        delete result;
+        return ret;
     }
 }

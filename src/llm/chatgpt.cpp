@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <iostream> // Include iostream for debug output
+#include <pthread.h>
 
 namespace llm {
     namespace {
@@ -71,5 +72,27 @@ namespace llm {
         } catch (...) {
             return "[Error extracting ChatGPT response]";
         }
+    }
+
+    struct ChatGPTThreadArgs {
+        std::string prompt;
+        std::string* result;
+    };
+
+    void* query_chatgpt_thread_func(void* arg) {
+        ChatGPTThreadArgs* args = static_cast<ChatGPTThreadArgs*>(arg);
+        *(args->result) = llm::query_chatgpt(args->prompt);
+        return nullptr;
+    }
+
+    std::string query_chatgpt_async(const std::string& prompt) {
+        pthread_t thread;
+        std::string* result = new std::string;
+        ChatGPTThreadArgs args{prompt, result};
+        pthread_create(&thread, nullptr, query_chatgpt_thread_func, &args);
+        pthread_join(thread, nullptr);
+        std::string ret = *result;
+        delete result;
+        return ret;
     }
 }

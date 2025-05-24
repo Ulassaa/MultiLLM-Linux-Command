@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <iostream>
+#include <pthread.h>
 
 namespace llm {
     namespace {
@@ -76,5 +77,27 @@ namespace llm {
         } catch (...) {
             return "[Error extracting DeepSeek response]";
         }
+    }
+
+    struct DeepSeekThreadArgs {
+        std::string prompt;
+        std::string* result;
+    };
+
+    void* query_deepseek_thread_func(void* arg) {
+        DeepSeekThreadArgs* args = static_cast<DeepSeekThreadArgs*>(arg);
+        *(args->result) = llm::query_deepseek(args->prompt);
+        return nullptr;
+    }
+
+    std::string query_deepseek_async(const std::string& prompt) {
+        pthread_t thread;
+        std::string* result = new std::string;
+        DeepSeekThreadArgs args{prompt, result};
+        pthread_create(&thread, nullptr, query_deepseek_thread_func, &args);
+        pthread_join(thread, nullptr);
+        std::string ret = *result;
+        delete result;
+        return ret;
     }
 }
